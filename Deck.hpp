@@ -8,8 +8,9 @@ class Deck {
 	public:
 		Card *getDeck();
 		void shuffle();
-		void addCard(Card *);
 		Deck();
-		Deck(Card *);
+		explicit Deck(Card *);
+        void addCardToHand(Card *);
+        Card *deal();
 			
 };

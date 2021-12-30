@@ -1,5 +1,6 @@
 #include "Deck.hpp"
 #include <iostream>
+#include <random>
 
 Deck::Deck(){
 	int total = 0;
@@ -67,5 +68,75 @@ Deck::Deck(Card *newCards) {
         }
     }
     this->numCards = total;
+};
+
+Card *Deck::getDeck() {
+    return this->cards;
+};
+
+void Deck::addCardToHand(Card *newCard) {
+
+    if (this->cards == NULL) {
+        this->cards = newCard;
+        this->bottom = newCard;
+        this->top = newCard;
+    } else {
+        this->bottom->next = newCard;
+        this->bottom = newCard;
+    }
+
+};
+
+void Deck::shuffle() {
+
+
+    // split in 3 ways
+    int fourWayIndex = this->numCards / 4;
+    Card *firstCut = this->cards;
+    Card *secondCut = NULL;
+    Card *thirdCut = NULL;
+    Card *fourthCut = NULL;
+
+    int index = 0;
+    Card *tempHead = this->cards;
+    while (tempHead != NULL) {
+        if (index != 0 && index % fourWayIndex == 0) {
+            // found where to cut
+            if (secondCut == NULL) {
+                secondCut = tempHead->next;
+                tempHead->next = NULL;
+                tempHead = secondCut;
+            } else if (thirdCut == NULL) {
+                thirdCut = tempHead->next;
+                tempHead->next = NULL;
+                tempHead = thirdCut;
+            } else if (fourthCut == NULL) {
+                fourthCut = tempHead->next;
+                tempHead->next = NULL;
+                break;
+            }
+        }
+    }
+
+    Deck *newDeck = new Deck(NULL);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(0, 3);
+    while (firstCut != NULL || secondCut != NULL || thirdCut != NULL || fourthCut != NULL) {
+        int randomIndex = distr(gen);
+        switch (randomIndex) {
+            case 0:
+                // take from first pile
+                newDeck->addCardToHand()
+            case 1:
+                // take from second pile
+            case 2:
+                // take from third pile
+            case 3:
+                // take from fourth pile
+        }
+    }
+
+
 };
 
