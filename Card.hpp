@@ -33,8 +33,9 @@ class Card {
 	public:
 		Card();
 		Card(int, int);
-		string getSymbol();
-		string getColor();
+		int getSymbol();
+		int getColor();
 		Card *getNext();
+        string toString();
 
 };
