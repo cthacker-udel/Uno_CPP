@@ -134,28 +134,45 @@ void Deck::shuffle() {
                 tempHead->next = NULL;
                 break;
             }
+        } else {
+            index++;
         }
     }
 
     Deck *newDeck = new Deck(NULL);
+    Deck *firstDeck = new Deck(firstCut);
+    Deck *secondDeck = new Deck(secondCut);
+    Deck *thirdDeck = new Deck(thirdCut);
+    Deck *fourthDeck = new Deck(fourthCut);
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distr(0, 3);
-    while (firstCut != NULL || secondCut != NULL || thirdCut != NULL || fourthCut != NULL) {
+    while (firstDeck->cards != NULL || secondDeck->cards != NULL || thirdDeck->cards != NULL || fourthDeck->cards != NULL) {
         int randomIndex = distr(gen);
         switch (randomIndex) {
             case 0:
                 // take from first pile
-                newDeck->addCardToHand()
+                if (firstDeck->cards != NULL) {
+                    newDeck->addCardToHand(firstDeck->deal());
+                }
             case 1:
                 // take from second pile
+                if (secondDeck->cards != NULL) {
+                    newDeck->addCardToHand(secondDeck->deal());
+                }
             case 2:
                 // take from third pile
+                if (thirdDeck->cards != NULL) {
+                    newDeck->addCardToHand(thirdDeck->deal());
+                }
             case 3:
                 // take from fourth pile
+                if (fourthDeck->cards != NULL) {
+                    newDeck->addCardToHand(fourthDeck->deal());
+                }
         }
     }
-
+    this->cards = newDeck->cards;
 
 };
 
