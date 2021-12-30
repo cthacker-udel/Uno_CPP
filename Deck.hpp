@@ -13,5 +13,6 @@ class Deck {
 		explicit Deck(Card *);
         void addCardToHand(Card *);
         Card *deal();
+        void displayHand();
 			
 };
