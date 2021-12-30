@@ -1,4 +1,6 @@
 #include "Card.hpp"
+#pragma once
+
 class Deck {
 	
 	Card *cards;

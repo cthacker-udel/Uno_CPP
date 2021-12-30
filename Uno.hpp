@@ -1,10 +1,11 @@
-#include "Deck.hpp";
+#include "Deck.hpp"
+#pragma once
 class Uno {
 
     Deck *pile;
     Deck *discardPile;
     public:
-        explicit Uno(Deck *);
+        explicit Uno();
         void playGame();
 
 };

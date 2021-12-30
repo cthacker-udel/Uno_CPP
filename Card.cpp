@@ -1,4 +1,5 @@
 #include "Card.hpp"
+#include <iostream>
 
 
 Card::Card(int newSymbol, int newColor) {
@@ -29,6 +30,7 @@ string Card::toString() {
 
     string leftPart = "";
     string rightPart = "";
+    std::cout << "color = " << this->color << std::endl;
     switch (this->color) {
         case 0: {
             leftPart += "Red";

@@ -1,11 +1,11 @@
-#include "Deck.cpp"
-#include "Card.cpp"
+#include "Uno.cpp"
 #include <time.h>
 
 int main(void) {
 
     srand(time(NULL));
-    Deck newDeck;
+    Uno *unoGame = new Uno();
+    unoGame->playGame();
     return -1;
 
 

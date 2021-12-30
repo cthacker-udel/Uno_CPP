@@ -4,10 +4,13 @@
 
 Deck::Deck(){
 	int total = 0;
+	this->cards = NULL;
+	this->bottom = NULL;
+	this->top = NULL;
 	// first create zeros
 	for (int i = 0; i < 4; i++) {
 		if (this->cards == NULL) {
-			cards = new Card(0, i);
+			this->cards = new Card(0, i);
 			this->top = cards;
 			this->bottom = cards;
 			total++;
@@ -21,9 +24,9 @@ Deck::Deck(){
 	// then create 1-9
 	for (int i = 0; i < 4; i++) {
 		for (int j = 1; j <= 9; j++) {
-			this->bottom->next = new Card(i, j);
+			this->bottom->next = new Card(j, i);
 			this->bottom = this->bottom->next;
-            this->bottom->next = new Card(i, j);
+            this->bottom->next = new Card(j, i);
             this->bottom = this->bottom->next;
 			total += 2;
 		}
@@ -32,21 +35,21 @@ Deck::Deck(){
 	// then add two of each, reverse, skip, and draw two
 	for(int i = 0; i < 4; i++) {
 		for(int j = 10; j <= 12; j++) {
-			this->bottom->next = new Card(i, j);
+			this->bottom->next = new Card(j, i);
 			this->bottom = this->bottom->next;
-			this->bottom->next = new Card(i, j);
+			this->bottom->next = new Card(j, i);
 			this->bottom = this->bottom->next;
 			total += 2;
 		}
 	}
 	for(int i = 13; i <= 14; i++) {
-		this->bottom->next = new Card(4, i);
+		this->bottom->next = new Card(i, 4);
 		this->bottom = this->bottom->next;
-		this->bottom->next = new Card(4, i);
+		this->bottom->next = new Card(i, 4);
 		this->bottom = this->bottom->next;
-		this->bottom->next = new Card(4, i);
+		this->bottom->next = new Card(i, 4);
 		this->bottom = this->bottom->next;
-		this->bottom->next = new Card(4, i);
+		this->bottom->next = new Card(i, 4);
 		this->bottom = this->bottom->next;
 		total += 4;
 	}
@@ -63,7 +66,7 @@ Deck::Deck(Card *newCards) {
     while (tempHead != NULL) {
         total++;
         tempHead = tempHead->next;
-        if (tempHead->next == NULL) {
+        if (tempHead != NULL && tempHead->next == NULL) {
             this->bottom = tempHead;
         }
     }
@@ -79,30 +82,27 @@ Card *Deck::deal() {
     if (this->cards == NULL) {
         return NULL;
     } else {
-        Card *tempHead = this->cards;
-        Card *prevCard = tempHead;
-        while (tempHead->next != NULL) {
-            prevCard = tempHead;
-            tempHead = tempHead->next;
-        }
-        // found last card
-        Card *lastCard = prevCard->next;
-        prevCard->next = NULL;
-        this->bottom = prevCard;
-        return lastCard;
+        Card *dealCard = this->top;
+        this->top = this->top->next;
+        this->cards = this->top;
+        cout << "dealing" << dealCard->toString() << endl;
+        this->numCards--;
+        return dealCard;
     }
 };
 
 void Deck::addCardToHand(Card *newCard) {
 
     if (this->cards == NULL) {
+        cout << "cards is null" << endl;
         this->cards = newCard;
         this->bottom = newCard;
         this->top = newCard;
-    } else {
+    } else if(newCard != NULL) {
         this->bottom->next = newCard;
         this->bottom = newCard;
     }
+    this->numCards++;
 
 };
 
@@ -134,8 +134,10 @@ void Deck::shuffle() {
                 tempHead->next = NULL;
                 break;
             }
+            index++;
         } else {
             index++;
+            tempHead = tempHead->next;
         }
     }
 
@@ -149,29 +151,36 @@ void Deck::shuffle() {
     std::uniform_int_distribution<> distr(0, 3);
     while (firstDeck->cards != NULL || secondDeck->cards != NULL || thirdDeck->cards != NULL || fourthDeck->cards != NULL) {
         int randomIndex = distr(gen);
+        cout << "before switch" << endl;
         switch (randomIndex) {
             case 0:
                 // take from first pile
                 if (firstDeck->cards != NULL) {
                     newDeck->addCardToHand(firstDeck->deal());
                 }
+                break;
             case 1:
                 // take from second pile
                 if (secondDeck->cards != NULL) {
                     newDeck->addCardToHand(secondDeck->deal());
                 }
+                break;
             case 2:
                 // take from third pile
                 if (thirdDeck->cards != NULL) {
                     newDeck->addCardToHand(thirdDeck->deal());
                 }
+                break;
             case 3:
                 // take from fourth pile
                 if (fourthDeck->cards != NULL) {
                     newDeck->addCardToHand(fourthDeck->deal());
                 }
+                break;
         }
+        cout << "cards left: firstDeck:" << firstDeck->numCards << "\nsecondDeck:" << secondDeck->numCards << "\nthirdDeck:" << thirdDeck->numCards << "\nfourthDeck:" << fourthDeck->numCards << endl;
     }
+    cout << "number of cards in newDeck = " << newDeck->numCards << endl;
     this->cards = newDeck->cards;
 
 };
