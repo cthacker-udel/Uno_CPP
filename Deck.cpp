@@ -74,6 +74,25 @@ Card *Deck::getDeck() {
     return this->cards;
 };
 
+Card *Deck::deal() {
+
+    if (this->cards == NULL) {
+        return NULL;
+    } else {
+        Card *tempHead = this->cards;
+        Card *prevCard = tempHead;
+        while (tempHead->next != NULL) {
+            prevCard = tempHead;
+            tempHead = tempHead->next;
+        }
+        // found last card
+        Card *lastCard = prevCard->next;
+        prevCard->next = NULL;
+        this->bottom = prevCard;
+        return lastCard;
+    }
+};
+
 void Deck::addCardToHand(Card *newCard) {
 
     if (this->cards == NULL) {
