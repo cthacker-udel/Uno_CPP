@@ -51,6 +51,21 @@ Deck::Deck(){
 	}
 	// we now have a deck of 108 cards
 	this->numCards = total;
-    std::cout << "number of cards = " << this->numCards << std::endl;
 
 }
+
+Deck::Deck(Card *newCards) {
+    this->cards = newCards;
+    int total = 0;
+    Card *tempHead = this->cards;
+    this->top = this->cards;
+    while (tempHead != NULL) {
+        total++;
+        tempHead = tempHead->next;
+        if (tempHead->next == NULL) {
+            this->bottom = tempHead;
+        }
+    }
+    this->numCards = total;
+};
+
