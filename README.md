@@ -1,1 +1,1 @@
-# This is the uno cplusplus project   
+# This is the blackjack cpp project
