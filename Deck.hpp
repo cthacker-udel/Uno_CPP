@@ -5,6 +5,7 @@ class Deck {
 	Card *top;
 	Card *bottom;
 	int numCards; // for sanity
+    friend class Uno;
 	public:
 		Card *getDeck();
 		void shuffle();
