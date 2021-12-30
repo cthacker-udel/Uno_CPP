@@ -1,6 +1,4 @@
 #include "Uno.hpp"
-#include "Deck.cpp"
-#include "Card.cpp"
 #include <iostream>
 
 Uno::Uno() {
@@ -14,6 +12,10 @@ void Uno::playGame() {
     // craft players hands
     Deck *playerHand = new Deck(NULL);
     Deck *computerHand = new Deck(NULL);
+    int randShuffleAmt = rand() % 30 + 1;
+    for (int i = 0; i < randShuffleAmt; i++) {
+    	this->pile->shuffle();
+    }
     std::cout << "Entering loop" << std::endl;
 
     for (int i = 0; i < 7; i++) {
