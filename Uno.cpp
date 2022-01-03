@@ -23,4 +23,4 @@ void Uno::playGame() {
         computerHand->addCardToHand(this->pile->deal());
     }
 
-}
+};
